@@ -103,3 +103,6 @@ frontend/package-*.json
 
 #Migration folder
 backend/Migrations/
+
+node_modules/
+**/.cache/
