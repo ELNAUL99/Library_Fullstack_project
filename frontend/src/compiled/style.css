@@ -12,20 +12,20 @@ a {
   text-decoration: none;
 }
 
-header {
+.app-header-legacy {
   background: #1e1e1e;
 }
-header .logo {
+.app-header-legacy .logo {
   display: flex;
   align-items: center;
   text-decoration: none;
 }
-header .logo img {
+.app-header-legacy .logo img {
   width: 80px;
   height: 70px;
   object-fit: contain;
 }
-header .logo .logoTitle {
+.app-header-legacy .logo .logoTitle {
   font-size: 2rem;
   font-family: monospace;
   font-weight: 700;
@@ -35,35 +35,35 @@ header .logo .logoTitle {
   display: none;
 }
 @media (min-width: 768px) {
-  header .logo .logoTitle {
+  .app-header-legacy .logo .logoTitle {
     display: block;
   }
 }
-header .menu-mobile {
+.app-header-legacy .menu-mobile {
   display: flex;
   flex-grow: 1;
 }
 @media (min-width: 768px) {
-  header .menu-mobile {
+  .app-header-legacy .menu-mobile {
     display: none;
   }
 }
-header .menu-desktop {
+.app-header-legacy .menu-desktop {
   display: none;
   flex-grow: 1;
 }
 @media (min-width: 768px) {
-  header .menu-desktop {
+  .app-header-legacy .menu-desktop {
     display: flex;
     gap: 1rem;
   }
-  header .menu-desktop button {
+  .app-header-legacy .menu-desktop button {
     color: white;
     font-size: 1rem;
     text-transform: none;
   }
 }
-header .user-icon svg {
+.app-header-legacy .user-icon svg {
   color: white;
   font-size: 2.5rem;
 }

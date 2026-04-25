@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHook";
 import { fetchAllRentalsForUser } from "../redux/reducer/rentalReducer";
-import { Box, Container, Typography } from "@material-ui/core";
-import { Pagination } from "@mui/material";
+import { Box, Container, Typography, Pagination } from "@mui/material";
 
 const Rental = () => {
   const rentals = useAppSelector((state) => state.rentalsReducer.items);

@@ -20,8 +20,10 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           background:
-            "linear-gradient(90deg, rgba(124,58,237,0.92) 0%, rgba(59,130,246,0.85) 100%)",
+            "linear-gradient(90deg, #7c3aed 0%, #3b82f6 100%) !important",
           backdropFilter: "blur(10px)",
+          borderBottom: "1px solid rgba(255,255,255,0.12)",
+          boxShadow: "0 8px 24px rgba(0,0,0,0.45)",
         },
       },
     },

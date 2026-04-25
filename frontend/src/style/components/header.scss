@@ -1,4 +1,6 @@
-header {
+// Scope to legacy markup only — never bare `header`, since MUI's AppBar
+// renders as <header> and we don't want to clobber its themed background.
+.app-header-legacy {
   background: #1e1e1e;
 
   .logo {
