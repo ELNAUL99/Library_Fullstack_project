@@ -20,20 +20,23 @@ public class BookService : DbCrudService<Book, BookDTO>, IBookService
             .Include(b => b.Copies)
                 .ThenInclude(c => c.Publisher);
 
+    // Copy has a back-reference to Book (Copy.Book), which forms a cycle
+    // when included from Book. Plain AsNoTracking() can't handle that —
+    // AsNoTrackingWithIdentityResolution keeps a single instance per key.
     public override async Task<ICollection<Book>> GetAllAsync(int page = 1, int pageSize = 30)
     {
         return await BooksWithRelations()
             .OrderBy(b => b.Id)
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
-            .AsNoTracking()
+            .AsNoTrackingWithIdentityResolution()
             .ToListAsync();
     }
 
     public override async Task<Book?> GetAsync(int id)
     {
         return await BooksWithRelations()
-            .AsNoTracking()
+            .AsNoTrackingWithIdentityResolution()
             .SingleOrDefaultAsync(b => b.Id == id);
     }
 
@@ -41,7 +44,7 @@ public class BookService : DbCrudService<Book, BookDTO>, IBookService
     {
         return await BooksWithRelations()
             .Where(b => b.Authors.Any(a => a.Id == authorId))
-            .AsNoTracking()
+            .AsNoTrackingWithIdentityResolution()
             .ToListAsync();
     }
 
@@ -49,7 +52,7 @@ public class BookService : DbCrudService<Book, BookDTO>, IBookService
     {
         return await BooksWithRelations()
             .Where(b => b.Categories.Any(c => c.Id == categoryId))
-            .AsNoTracking()
+            .AsNoTrackingWithIdentityResolution()
             .ToListAsync();
     }
 
@@ -58,7 +61,7 @@ public class BookService : DbCrudService<Book, BookDTO>, IBookService
         // A book is "from" a publisher if any of its copies were issued by them.
         return await BooksWithRelations()
             .Where(b => b.Copies.Any(c => c.PublisherId == publisherId))
-            .AsNoTracking()
+            .AsNoTrackingWithIdentityResolution()
             .ToListAsync();
     }
 
@@ -70,7 +73,7 @@ public class BookService : DbCrudService<Book, BookDTO>, IBookService
         var q = query.Trim().ToLower();
         return await BooksWithRelations()
             .Where(b => b.Title.ToLower().Contains(q) || b.ISBN.ToLower().Contains(q))
-            .AsNoTracking()
+            .AsNoTrackingWithIdentityResolution()
             .ToListAsync();
     }
 
