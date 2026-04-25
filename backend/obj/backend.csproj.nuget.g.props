@@ -4,23 +4,23 @@
     <RestoreSuccess Condition=" '$(RestoreSuccess)' == '' ">True</RestoreSuccess>
     <RestoreTool Condition=" '$(RestoreTool)' == '' ">NuGet</RestoreTool>
     <ProjectAssetsFile Condition=" '$(ProjectAssetsFile)' == '' ">$(MSBuildThisFileDirectory)project.assets.json</ProjectAssetsFile>
-    <NuGetPackageRoot Condition=" '$(NuGetPackageRoot)' == '' ">/var/folders/mb/xcb0sbgd4p5df40798jq9h180000gn/T/cursor-sandbox-cache/f9be5c7963e6e5e6ca233e524a0ec3d5/nuget</NuGetPackageRoot>
-    <NuGetPackageFolders Condition=" '$(NuGetPackageFolders)' == '' ">/var/folders/mb/xcb0sbgd4p5df40798jq9h180000gn/T/cursor-sandbox-cache/f9be5c7963e6e5e6ca233e524a0ec3d5/nuget</NuGetPackageFolders>
+    <NuGetPackageRoot Condition=" '$(NuGetPackageRoot)' == '' ">/Users/macbook/.nuget/packages/</NuGetPackageRoot>
+    <NuGetPackageFolders Condition=" '$(NuGetPackageFolders)' == '' ">/Users/macbook/.nuget/packages/</NuGetPackageFolders>
     <NuGetProjectStyle Condition=" '$(NuGetProjectStyle)' == '' ">PackageReference</NuGetProjectStyle>
     <NuGetToolVersion Condition=" '$(NuGetToolVersion)' == '' ">7.0.0</NuGetToolVersion>
   </PropertyGroup>
   <ItemGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
-    <SourceRoot Include="/var/folders/mb/xcb0sbgd4p5df40798jq9h180000gn/T/cursor-sandbox-cache/f9be5c7963e6e5e6ca233e524a0ec3d5/nuget/" />
+    <SourceRoot Include="/Users/macbook/.nuget/packages/" />
   </ItemGroup>
   <ImportGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
-    <Import Project="$(NuGetPackageRoot)/xunit.core/2.4.2/build/xunit.core.props" Condition="Exists('$(NuGetPackageRoot)/xunit.core/2.4.2/build/xunit.core.props')" />
-    <Import Project="$(NuGetPackageRoot)/microsoft.extensions.apidescription.server/6.0.5/build/Microsoft.Extensions.ApiDescription.Server.props" Condition="Exists('$(NuGetPackageRoot)/microsoft.extensions.apidescription.server/6.0.5/build/Microsoft.Extensions.ApiDescription.Server.props')" />
-    <Import Project="$(NuGetPackageRoot)/swashbuckle.aspnetcore/6.5.0/build/Swashbuckle.AspNetCore.props" Condition="Exists('$(NuGetPackageRoot)/swashbuckle.aspnetcore/6.5.0/build/Swashbuckle.AspNetCore.props')" />
-    <Import Project="$(NuGetPackageRoot)/microsoft.entityframeworkcore/7.0.1/buildTransitive/net6.0/Microsoft.EntityFrameworkCore.props" Condition="Exists('$(NuGetPackageRoot)/microsoft.entityframeworkcore/7.0.1/buildTransitive/net6.0/Microsoft.EntityFrameworkCore.props')" />
-    <Import Project="$(NuGetPackageRoot)/microsoft.entityframeworkcore.design/7.0.1/build/net6.0/Microsoft.EntityFrameworkCore.Design.props" Condition="Exists('$(NuGetPackageRoot)/microsoft.entityframeworkcore.design/7.0.1/build/net6.0/Microsoft.EntityFrameworkCore.Design.props')" />
+    <Import Project="$(NuGetPackageRoot)xunit.core/2.4.2/build/xunit.core.props" Condition="Exists('$(NuGetPackageRoot)xunit.core/2.4.2/build/xunit.core.props')" />
+    <Import Project="$(NuGetPackageRoot)microsoft.extensions.apidescription.server/6.0.5/build/Microsoft.Extensions.ApiDescription.Server.props" Condition="Exists('$(NuGetPackageRoot)microsoft.extensions.apidescription.server/6.0.5/build/Microsoft.Extensions.ApiDescription.Server.props')" />
+    <Import Project="$(NuGetPackageRoot)swashbuckle.aspnetcore/6.5.0/build/Swashbuckle.AspNetCore.props" Condition="Exists('$(NuGetPackageRoot)swashbuckle.aspnetcore/6.5.0/build/Swashbuckle.AspNetCore.props')" />
+    <Import Project="$(NuGetPackageRoot)microsoft.entityframeworkcore/7.0.1/buildTransitive/net6.0/Microsoft.EntityFrameworkCore.props" Condition="Exists('$(NuGetPackageRoot)microsoft.entityframeworkcore/7.0.1/buildTransitive/net6.0/Microsoft.EntityFrameworkCore.props')" />
+    <Import Project="$(NuGetPackageRoot)microsoft.entityframeworkcore.design/7.0.1/build/net6.0/Microsoft.EntityFrameworkCore.Design.props" Condition="Exists('$(NuGetPackageRoot)microsoft.entityframeworkcore.design/7.0.1/build/net6.0/Microsoft.EntityFrameworkCore.Design.props')" />
   </ImportGroup>
   <PropertyGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
-    <Pkgxunit_analyzers Condition=" '$(Pkgxunit_analyzers)' == '' ">/var/folders/mb/xcb0sbgd4p5df40798jq9h180000gn/T/cursor-sandbox-cache/f9be5c7963e6e5e6ca233e524a0ec3d5/nuget/xunit.analyzers/1.0.0</Pkgxunit_analyzers>
-    <PkgMicrosoft_Extensions_ApiDescription_Server Condition=" '$(PkgMicrosoft_Extensions_ApiDescription_Server)' == '' ">/var/folders/mb/xcb0sbgd4p5df40798jq9h180000gn/T/cursor-sandbox-cache/f9be5c7963e6e5e6ca233e524a0ec3d5/nuget/microsoft.extensions.apidescription.server/6.0.5</PkgMicrosoft_Extensions_ApiDescription_Server>
+    <Pkgxunit_analyzers Condition=" '$(Pkgxunit_analyzers)' == '' ">/Users/macbook/.nuget/packages/xunit.analyzers/1.0.0</Pkgxunit_analyzers>
+    <PkgMicrosoft_Extensions_ApiDescription_Server Condition=" '$(PkgMicrosoft_Extensions_ApiDescription_Server)' == '' ">/Users/macbook/.nuget/packages/microsoft.extensions.apidescription.server/6.0.5</PkgMicrosoft_Extensions_ApiDescription_Server>
   </PropertyGroup>
 </Project>

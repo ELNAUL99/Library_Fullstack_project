@@ -8203,16 +8203,16 @@
     ]
   },
   "packageFolders": {
-    "/var/folders/mb/xcb0sbgd4p5df40798jq9h180000gn/T/cursor-sandbox-cache/f9be5c7963e6e5e6ca233e524a0ec3d5/nuget": {}
+    "/Users/macbook/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/macbook/Documents/GitHub/fs13-FullStack/backend/backend.csproj",
+      "projectUniqueName": "/Users/macbook/Desktop/Unity/Library_Fullstack_project/backend/backend.csproj",
       "projectName": "backend",
-      "projectPath": "/Users/macbook/Documents/GitHub/fs13-FullStack/backend/backend.csproj",
-      "packagesPath": "/var/folders/mb/xcb0sbgd4p5df40798jq9h180000gn/T/cursor-sandbox-cache/f9be5c7963e6e5e6ca233e524a0ec3d5/nuget",
-      "outputPath": "/Users/macbook/Documents/GitHub/fs13-FullStack/backend/obj/",
+      "projectPath": "/Users/macbook/Desktop/Unity/Library_Fullstack_project/backend/backend.csproj",
+      "packagesPath": "/Users/macbook/.nuget/packages/",
+      "outputPath": "/Users/macbook/Desktop/Unity/Library_Fullstack_project/backend/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/macbook/.nuget/NuGet/NuGet.Config"
