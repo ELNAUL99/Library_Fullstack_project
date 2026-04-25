@@ -5,6 +5,7 @@ import { Box, Container, Typography, Pagination } from "@mui/material";
 
 const Rental = () => {
   const rentals = useAppSelector((state) => state.rentalsReducer.items);
+  const totalItems = useAppSelector((state) => state.rentalsReducer.totalItems);
   const dispatch = useAppDispatch();
   const [page, setPage] = useState(1);
   const [pageSize] = useState(30);
@@ -16,6 +17,8 @@ const Rental = () => {
   if (!Array.isArray(rentals)) {
     return <>Loading...</>;
   }
+
+  const totalPages = Math.max(1, Math.ceil((totalItems || rentals.length) / pageSize));
 
   return (
     <Container>
@@ -50,14 +53,16 @@ const Rental = () => {
         ))
       )}
 
-      <Pagination
-        count={Math.max(1, Math.ceil(rentals.length / 30))}
-        page={page}
-        variant="outlined"
-        onChange={(_, p) => setPage(p)}
-        shape="rounded"
-        size="large"
-      />
+      {totalPages > 1 && (
+        <Pagination
+          count={totalPages}
+          page={page}
+          variant="outlined"
+          onChange={(_, p) => setPage(p)}
+          shape="rounded"
+          size="large"
+        />
+      )}
     </Container>
   );
 };
