@@ -1,0 +1,9 @@
+{
+  "devDependencies": {
+    "@types/node": "^25.2.1"
+  },
+  "dependencies": {
+    "@reduxjs/toolkit": "^2.11.2",
+    "axios": "^1.13.4"
+  }
+}

@@ -1,0 +1,94 @@
+.profile-container {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+
+/* Header section */
+.profile-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+
+  .profile-avatar {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 1rem auto;
+    background: #1976d2;
+    font-size: 2.5rem;
+  }
+
+  .profile-title {
+    font-weight: 700;
+    color: #f3f4f6;
+    margin-bottom: 0.3rem;
+  }
+
+  .profile-subtitle {
+    color: rgba(229, 231, 235, 0.72);
+    font-size: 1.1rem;
+  }
+}
+
+/* Card with user info */
+.profile-card {
+  background: rgba(255, 255, 255, 0.06);
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  margin-bottom: 2rem;
+
+  h6 {
+    margin-bottom: 1rem;
+    color: rgba(243, 244, 246, 0.92);
+
+    b {
+      color: #ffffff;
+      margin-right: 0.5rem;
+    }
+  }
+}
+
+/* Action buttons */
+.profile-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+
+  .profile-btn {
+    padding: 0.7rem 1.5rem;
+    font-size: 1rem;
+    border-radius: 8px;
+  }
+
+  .edit-btn {
+    background: rgba(25, 118, 210, 0.85);
+    color: white;
+    padding: 0.7rem;
+    border-radius: 8px;
+    transition: background 0.2s ease;
+
+    &:hover {
+      background: rgba(25, 118, 210, 1);
+    }
+
+    svg {
+      font-size: 1.5rem;
+    }
+  }
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .profile-card {
+    padding: 1.5rem;
+  }
+
+  .profile-actions {
+    flex-direction: column;
+
+    .profile-btn,
+    .edit-btn {
+      width: 100%;
+    }
+  }
+}

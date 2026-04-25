@@ -1,0 +1,104 @@
+@import 'base/reset';
+
+@import 'components/header.scss';
+@import 'components/profilePage.scss';
+
+// ===== New global app styling (MUI-friendly) =====
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background: #0b1220;
+  color: #e5e7eb;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica,
+    Arial, "Apple Color Emoji", "Segoe UI Emoji";
+}
+
+.app-root {
+  min-height: 100vh;
+}
+
+.app-content {
+  padding-top: 24px;
+  padding-bottom: 48px;
+}
+
+.page {
+  width: 100%;
+}
+
+.card {
+  border-radius: 16px !important;
+  background: rgba(255, 255, 255, 0.06) !important;
+  border: 1px solid rgba(255, 255, 255, 0.10) !important;
+  backdrop-filter: blur(10px);
+}
+
+.grid-cards {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 16px;
+
+  > * {
+    grid-column: span 12;
+  }
+
+  @media (min-width: 700px) {
+    > * {
+      grid-column: span 6;
+    }
+  }
+
+  @media (min-width: 1000px) {
+    > * {
+      grid-column: span 4;
+    }
+  }
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 16px;
+
+  > * {
+    grid-column: span 12;
+  }
+
+  @media (min-width: 900px) {
+    > * {
+      grid-column: span 6;
+    }
+  }
+}
+
+// Notifications
+.notifications-container {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 2000;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.notification {
+  padding: 12px 14px;
+  border-radius: 12px;
+  font-weight: 600;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(17, 24, 39, 0.92);
+  max-width: min(420px, calc(100vw - 32px));
+}
+
+.notification.successful {
+  border-color: rgba(34, 197, 94, 0.35);
+}
+
+.notification.warning {
+  border-color: rgba(245, 158, 11, 0.35);
+}

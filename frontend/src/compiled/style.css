@@ -1,0 +1,244 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+ul {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+header {
+  background: #1e1e1e;
+}
+header .logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+header .logo img {
+  width: 80px;
+  height: 70px;
+  object-fit: contain;
+}
+header .logo .logoTitle {
+  font-size: 2rem;
+  font-family: monospace;
+  font-weight: 700;
+  letter-spacing: 0.25rem;
+  color: white;
+  margin-left: 0.5rem;
+  display: none;
+}
+@media (min-width: 768px) {
+  header .logo .logoTitle {
+    display: block;
+  }
+}
+header .menu-mobile {
+  display: flex;
+  flex-grow: 1;
+}
+@media (min-width: 768px) {
+  header .menu-mobile {
+    display: none;
+  }
+}
+header .menu-desktop {
+  display: none;
+  flex-grow: 1;
+}
+@media (min-width: 768px) {
+  header .menu-desktop {
+    display: flex;
+    gap: 1rem;
+  }
+  header .menu-desktop button {
+    color: white;
+    font-size: 1rem;
+    text-transform: none;
+  }
+}
+header .user-icon svg {
+  color: white;
+  font-size: 2.5rem;
+}
+
+.profile-container {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+
+/* Header section */
+.profile-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+.profile-header .profile-avatar {
+  width: 100px;
+  height: 100px;
+  margin: 0 auto 1rem auto;
+  background: #1976d2;
+  font-size: 2.5rem;
+}
+.profile-header .profile-title {
+  font-weight: 700;
+  color: #f3f4f6;
+  margin-bottom: 0.3rem;
+}
+.profile-header .profile-subtitle {
+  color: rgba(229, 231, 235, 0.72);
+  font-size: 1.1rem;
+}
+
+/* Card with user info */
+.profile-card {
+  background: rgba(255, 255, 255, 0.06);
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: 2rem;
+}
+.profile-card h6 {
+  margin-bottom: 1rem;
+  color: rgba(243, 244, 246, 0.92);
+}
+.profile-card h6 b {
+  color: #ffffff;
+  margin-right: 0.5rem;
+}
+
+/* Action buttons */
+.profile-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+.profile-actions .profile-btn {
+  padding: 0.7rem 1.5rem;
+  font-size: 1rem;
+  border-radius: 8px;
+}
+.profile-actions .edit-btn {
+  background: rgba(25, 118, 210, 0.85);
+  color: white;
+  padding: 0.7rem;
+  border-radius: 8px;
+  transition: background 0.2s ease;
+}
+.profile-actions .edit-btn:hover {
+  background: rgb(25, 118, 210);
+}
+.profile-actions .edit-btn svg {
+  font-size: 1.5rem;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .profile-card {
+    padding: 1.5rem;
+  }
+  .profile-actions {
+    flex-direction: column;
+  }
+  .profile-actions .profile-btn,
+  .profile-actions .edit-btn {
+    width: 100%;
+  }
+}
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background: #0b1220;
+  color: #e5e7eb;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+}
+
+.app-root {
+  min-height: 100vh;
+}
+
+.app-content {
+  padding-top: 24px;
+  padding-bottom: 48px;
+}
+
+.page {
+  width: 100%;
+}
+
+.card {
+  border-radius: 16px !important;
+  background: rgba(255, 255, 255, 0.06) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  backdrop-filter: blur(10px);
+}
+
+.grid-cards {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 16px;
+}
+.grid-cards > * {
+  grid-column: span 12;
+}
+@media (min-width: 700px) {
+  .grid-cards > * {
+    grid-column: span 6;
+  }
+}
+@media (min-width: 1000px) {
+  .grid-cards > * {
+    grid-column: span 4;
+  }
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 16px;
+}
+.form-grid > * {
+  grid-column: span 12;
+}
+@media (min-width: 900px) {
+  .form-grid > * {
+    grid-column: span 6;
+  }
+}
+
+.notifications-container {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 2000;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.notification {
+  padding: 12px 14px;
+  border-radius: 12px;
+  font-weight: 600;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(17, 24, 39, 0.92);
+  max-width: min(420px, 100vw - 32px);
+}
+
+.notification.successful {
+  border-color: rgba(34, 197, 94, 0.35);
+}
+
+.notification.warning {
+  border-color: rgba(245, 158, 11, 0.35);
+}
