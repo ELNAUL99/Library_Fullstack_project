@@ -29,6 +29,16 @@ public class ExceptionMiddleware
 
     private static Task HandleExceptionAsync(HttpContext context, Exception exception)
     {
+        // If the response has already started (e.g. exception during
+        // streaming serialization), headers are read-only — overwriting
+        // them would throw a secondary error that masks the real one.
+        // Best we can do is abort the connection.
+        if (context.Response.HasStarted)
+        {
+            context.Abort();
+            return Task.CompletedTask;
+        }
+
         context.Response.ContentType = "application/json";
         context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 
