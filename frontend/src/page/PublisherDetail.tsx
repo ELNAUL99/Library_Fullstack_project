@@ -12,6 +12,7 @@ import BusinessIcon from "@mui/icons-material/Business";
 import PhoneIcon from "@mui/icons-material/Phone";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import CategoryIcon from "@mui/icons-material/Category";
+import PersonIcon from "@mui/icons-material/Person";
 import { useNavigate, useParams } from "react-router-dom";
 import { Publisher } from "../types/publisher";
 import apiClient from "../services/apiClient";
@@ -45,7 +46,15 @@ const PublisherDetail = () => {
     (books ?? []).forEach((b) =>
       b.categories?.forEach((c) => map.set(c.id, { id: c.id, name: c.name }))
     );
-    return Array.from(map.values()).slice(0, 8);
+    return Array.from(map.values()).slice(0, 12);
+  }, [books]);
+
+  const featuredAuthors = useMemo(() => {
+    const map = new Map<number, { id: number; name: string }>();
+    (books ?? []).forEach((b) =>
+      b.authors?.forEach((a) => map.set(a.id, { id: a.id, name: a.name }))
+    );
+    return Array.from(map.values()).slice(0, 12);
   }, [books]);
 
   if (loading) return <div>Loading...</div>;
@@ -113,22 +122,46 @@ const PublisherDetail = () => {
         </Box>
       </Paper>
 
-      {featuredCategories.length > 0 && (
+      {(featuredCategories.length > 0 || featuredAuthors.length > 0) && (
         <Paper elevation={0} className="card" sx={{ p: 2.5, mb: 3 }}>
-          <Typography variant="subtitle1" sx={{ fontWeight: 700, mb: 1.5 }}>
-            Categories published
-          </Typography>
-          <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
-            {featuredCategories.map((c) => (
-              <Chip
-                key={c.id}
-                icon={<CategoryIcon />}
-                label={c.name}
-                onClick={() => navigate(`/category/${c.id}`)}
-                sx={{ cursor: "pointer" }}
-              />
-            ))}
-          </Stack>
+          {featuredCategories.length > 0 && (
+            <Box sx={{ mb: featuredAuthors.length > 0 ? 2 : 0 }}>
+              <Typography variant="subtitle1" sx={{ fontWeight: 700, mb: 1 }}>
+                Categories published
+              </Typography>
+              <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
+                {featuredCategories.map((c) => (
+                  <Chip
+                    key={c.id}
+                    icon={<CategoryIcon />}
+                    label={c.name}
+                    color="primary"
+                    variant="outlined"
+                    onClick={() => navigate(`/category/${c.id}`)}
+                    sx={{ cursor: "pointer" }}
+                  />
+                ))}
+              </Stack>
+            </Box>
+          )}
+          {featuredAuthors.length > 0 && (
+            <Box>
+              <Typography variant="subtitle1" sx={{ fontWeight: 700, mb: 1 }}>
+                Authors published
+              </Typography>
+              <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
+                {featuredAuthors.map((a) => (
+                  <Chip
+                    key={a.id}
+                    icon={<PersonIcon />}
+                    label={a.name}
+                    onClick={() => navigate(`/author/${a.id}`)}
+                    sx={{ cursor: "pointer" }}
+                  />
+                ))}
+              </Stack>
+            </Box>
+          )}
         </Paper>
       )}
 

@@ -12,7 +12,8 @@ export interface Book{
     authors: Author[],
     copies: Copy[],
     publishers: Publisher[],
-    numberOfCopiesAvailable: number
+    totalCopies?: number,
+    totalCopiesAvailable?: number
 }
 
 export type NewBook = {

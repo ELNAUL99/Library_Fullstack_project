@@ -28,6 +28,40 @@ static async Task SeedRolesAsync(IServiceProvider services)
     }
 }
 
+// Promote known admin users on startup. Idempotent — safe to run on every boot.
+static async Task SeedAdminUsersAsync(IServiceProvider services)
+{
+    var userManager = services.GetRequiredService<UserManager<User>>();
+    var logger = services.GetRequiredService<ILogger<Program>>();
+
+    // Match by (FirstName, LastName) and by email — covers both
+    // "Luan Le" registered with any email and "admin@mail.com" itself.
+    var admins = userManager.Users
+        .Where(u =>
+            (u.FirstName == "Luan" && u.LastName == "Le") ||
+            u.Email == "admin@mail.com")
+        .ToList();
+
+    foreach (var user in admins)
+    {
+        if (!await userManager.IsInRoleAsync(user, "ADMIN"))
+        {
+            var result = await userManager.AddToRoleAsync(user, "ADMIN");
+            if (result.Succeeded)
+            {
+                logger.LogInformation("Granted ADMIN role to {User} ({Email})",
+                    user.UserName, user.Email);
+            }
+            else
+            {
+                logger.LogWarning("Failed to grant ADMIN to {User}: {Errors}",
+                    user.UserName,
+                    string.Join("; ", result.Errors.Select(e => e.Description)));
+            }
+        }
+    }
+}
+
 // Add services to the container.
 builder.Services
     .AddIdentity<User, IdentityRole<int>>(options =>
@@ -116,6 +150,7 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     await SeedRolesAsync(scope.ServiceProvider);
+    await SeedAdminUsersAsync(scope.ServiceProvider);
 }
 
 

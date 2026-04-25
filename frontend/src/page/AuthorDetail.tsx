@@ -12,6 +12,8 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import PublicIcon from "@mui/icons-material/Public";
 import CakeIcon from "@mui/icons-material/Cake";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
+import CategoryIcon from "@mui/icons-material/Category";
+import BusinessIcon from "@mui/icons-material/Business";
 import { useNavigate, useParams } from "react-router-dom";
 import { Author } from "../types/author";
 import apiClient from "../services/apiClient";
@@ -50,6 +52,22 @@ const AuthorDetail = () => {
       .join("")
       .toUpperCase();
   }, [author]);
+
+  const relatedCategories = useMemo(() => {
+    const map = new Map<number, { id: number; name: string }>();
+    (books ?? []).forEach((b) =>
+      b.categories?.forEach((c) => map.set(c.id, { id: c.id, name: c.name }))
+    );
+    return Array.from(map.values());
+  }, [books]);
+
+  const relatedPublishers = useMemo(() => {
+    const map = new Map<number, { id: number; name: string }>();
+    (books ?? []).forEach((b) =>
+      b.publishers?.forEach((p) => map.set(p.id, { id: p.id, name: p.name }))
+    );
+    return Array.from(map.values());
+  }, [books]);
 
   const birthYear = author?.birthDate
     ? new Date(author.birthDate).getFullYear()
@@ -124,6 +142,51 @@ const AuthorDetail = () => {
           </Stack>
         </Box>
       </Paper>
+
+      {(relatedCategories.length > 0 || relatedPublishers.length > 0) && (
+        <Paper elevation={0} className="card" sx={{ p: 2.5, mb: 3 }}>
+          {relatedCategories.length > 0 && (
+            <Box sx={{ mb: relatedPublishers.length > 0 ? 2 : 0 }}>
+              <Typography variant="subtitle1" sx={{ fontWeight: 700, mb: 1 }}>
+                Writes in these categories
+              </Typography>
+              <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
+                {relatedCategories.map((c) => (
+                  <Chip
+                    key={c.id}
+                    icon={<CategoryIcon />}
+                    label={c.name}
+                    color="primary"
+                    variant="outlined"
+                    onClick={() => navigate(`/category/${c.id}`)}
+                    sx={{ cursor: "pointer" }}
+                  />
+                ))}
+              </Stack>
+            </Box>
+          )}
+          {relatedPublishers.length > 0 && (
+            <Box>
+              <Typography variant="subtitle1" sx={{ fontWeight: 700, mb: 1 }}>
+                Published by
+              </Typography>
+              <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
+                {relatedPublishers.map((p) => (
+                  <Chip
+                    key={p.id}
+                    icon={<BusinessIcon />}
+                    label={p.name}
+                    color="secondary"
+                    variant="outlined"
+                    onClick={() => navigate(`/publisher/${p.id}`)}
+                    sx={{ cursor: "pointer" }}
+                  />
+                ))}
+              </Stack>
+            </Box>
+          )}
+        </Paper>
+      )}
 
       <Typography variant="h5" sx={{ fontWeight: 800, mb: 2 }}>
         Books by {author?.name ?? "this author"}
