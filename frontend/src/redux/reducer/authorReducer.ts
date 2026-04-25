@@ -1,25 +1,37 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { Author, CreateAuthor } from "../../types/author";
 import { addNotification } from "../../components/NotificationHandle";
-import { Pagination } from "../../types/pagination";
+import { PaginatedResponse, Pagination } from "../../types/pagination";
 import apiClient from "../../services/apiClient";
 import { API_ENDPOINTS } from "../../config/api";
 
 type AuthorsState = {
     items: Author[];
     selected: Author | null;
+    totalItems: number;
+    currentPage: number;
+    pageSize: number;
 };
 
 const initialState: AuthorsState = {
     items: [],
     selected: null,
+    totalItems: 0,
+    currentPage: 1,
+    pageSize: 30,
 };
 
 export const fetchAllAuthors = createAsyncThunk(
     'fetchAllAuthors',
-    async(pagination:Pagination | null) =>{
+    async(pagination: Pagination | null) =>{
         try{
-            return await apiClient.get<Author[]>(API_ENDPOINTS.AUTHORS.GET_ALL);
+            const params = pagination
+                ? { page: pagination.page, pageSize: pagination.pageSize }
+                : undefined;
+            return await apiClient.get<PaginatedResponse<Author>>(
+                API_ENDPOINTS.AUTHORS.GET_ALL,
+                { params }
+            );
         }catch(e){
             console.log(e)
         }
@@ -73,7 +85,12 @@ const authorSlice = createSlice({
     reducers:{},
     extraReducers: (build) => {
         build.addCase(fetchAllAuthors.fulfilled, (state, action) => {
-            state.items = action.payload ?? [];
+            const payload = action.payload;
+            if (!payload) return;
+            state.items = payload.items ?? [];
+            state.totalItems = payload.totalItems ?? state.items.length;
+            state.currentPage = payload.currentPage ?? 1;
+            state.pageSize = payload.pageSize ?? state.pageSize;
         });
         build.addCase(fetchAuthorById.fulfilled, (state, action) => {
             state.selected = action.payload ?? null;

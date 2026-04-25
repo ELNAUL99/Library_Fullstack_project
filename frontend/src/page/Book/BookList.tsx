@@ -11,6 +11,7 @@ import { Pagination } from "@mui/material";
 
 const BookList = () => {
   const books = useAppSelector((state) => state.booksReducer.items);
+  const totalItems = useAppSelector((state) => state.booksReducer.totalItems);
   const dispatch = useAppDispatch();
   const [page, setPage] = useState(1);
   const [pageSize] = useState(30);
@@ -27,12 +28,14 @@ const BookList = () => {
   }
 
   const doSearchTitle = () => {
-    if (!trimmed) return dispatch(fetchAllBooks({ page, pageSize }));
+    setPage(1);
+    if (!trimmed) return dispatch(fetchAllBooks({ page: 1, pageSize }));
     dispatch(fetchBooksByTitle(trimmed));
   };
 
   const doSearchIsbn = () => {
-    if (!trimmed) return dispatch(fetchAllBooks({ page, pageSize }));
+    setPage(1);
+    if (!trimmed) return dispatch(fetchAllBooks({ page: 1, pageSize }));
     dispatch(fetchBooksByISBN(trimmed));
   };
 
@@ -40,6 +43,8 @@ const BookList = () => {
   const handleChange = (_: any, page: number) => {
     setPage(page);
   };
+
+  const totalPages = Math.max(1, Math.ceil((totalItems || books.length) / pageSize));
 
   return (
     <Box className="page" sx={{ py: 3 }}>
@@ -51,7 +56,8 @@ const BookList = () => {
           variant="text"
           onClick={() => {
             setQuery("");
-            dispatch(fetchAllBooks({ page, pageSize }));
+            setPage(1);
+            dispatch(fetchAllBooks({ page: 1, pageSize }));
           }}
         >
           Reset
@@ -92,16 +98,18 @@ const BookList = () => {
         )}
       </Box>
 
-      <Box sx={{ display: "flex", justifyContent: "center", mt: 3 }}>
-        <Pagination
-          count={Math.max(1, Math.ceil(books.length / 30))}
-          page={page}
-          variant="outlined"
-          onChange={handleChange}
-          shape="rounded"
-          size="large"
-        />
-      </Box>
+      {totalPages > 1 && (
+        <Box sx={{ display: "flex", justifyContent: "center", mt: 3 }}>
+          <Pagination
+            count={totalPages}
+            page={page}
+            variant="outlined"
+            onChange={handleChange}
+            shape="rounded"
+            size="large"
+          />
+        </Box>
+      )}
     </Box>
   );
 };

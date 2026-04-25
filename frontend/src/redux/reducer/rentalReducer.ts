@@ -1,23 +1,35 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { NewRental, Rental, UpdateRental } from "../../types/rental";
-import { Pagination } from "../../types/pagination";
+import { PaginatedResponse, Pagination } from "../../types/pagination";
 import apiClient from "../../services/apiClient";
 import { API_ENDPOINTS } from "../../config/api";
 
 type RentalsState = {
     items: Rental[];
     selected: Rental | null;
+    totalItems: number;
+    currentPage: number;
+    pageSize: number;
 };
 
 const initialState: RentalsState = {
     items: [],
     selected: null,
+    totalItems: 0,
+    currentPage: 1,
+    pageSize: 30,
 };
 
 export const fetchAllRentalsForAdmin = createAsyncThunk(
     "fetchAllRentalsForAdmin",
-    async(pagination:Pagination | null) => {
-        return await apiClient.get<Rental[]>(API_ENDPOINTS.RENTALS.GET_ALL);
+    async(pagination: Pagination | null) => {
+        const params = pagination
+            ? { page: pagination.page, pageSize: pagination.pageSize }
+            : undefined;
+        return await apiClient.get<PaginatedResponse<Rental>>(
+            API_ENDPOINTS.RENTALS.GET_ALL,
+            { params }
+        );
     }
 )
 
@@ -62,13 +74,24 @@ const rentalSlice = createSlice({
     reducers: {},
     extraReducers: (build) => {
         build.addCase(fetchAllRentalsForAdmin.fulfilled, (state, action) => {
-            state.items = action.payload ?? [];
+            const payload = action.payload;
+            if (!payload) return;
+            state.items = payload.items ?? [];
+            state.totalItems = payload.totalItems ?? state.items.length;
+            state.currentPage = payload.currentPage ?? 1;
+            state.pageSize = payload.pageSize ?? state.pageSize;
         })
         build.addCase(fetchAllRentalsForUser.fulfilled, (state, action) => {
-            state.items = action.payload ?? [];
+            const list = action.payload ?? [];
+            state.items = list;
+            state.totalItems = list.length;
+            state.currentPage = 1;
         })
         build.addCase(fetchAllRentalsForSpecificUserById.fulfilled, (state, action) => {
-            state.items = action.payload ?? [];
+            const list = action.payload ?? [];
+            state.items = list;
+            state.totalItems = list.length;
+            state.currentPage = 1;
         })
         build.addCase(fetchRentalById.fulfilled, (state, action) => {
             state.selected = action.payload ?? null;

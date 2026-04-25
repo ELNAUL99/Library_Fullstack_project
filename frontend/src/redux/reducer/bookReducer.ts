@@ -1,26 +1,35 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { Book, NewBook } from "../../types/book";
 import axios from "axios";
-import { Pagination } from "../../types/pagination";
+import { PaginatedResponse, Pagination } from "../../types/pagination";
 import { API_BASE_URL } from "../../config/api";
 
 type BooksState = {
     items: Book[];
     selected: Book | null;
+    totalItems: number;
+    currentPage: number;
+    pageSize: number;
 };
 
 const initialState: BooksState = {
     items: [],
     selected: null,
+    totalItems: 0,
+    currentPage: 1,
+    pageSize: 30,
 };
 
 export const fetchAllBooks = createAsyncThunk(
     "fetchAllBooks",
-    async(pagination:Pagination | null) => {
-        const res = await axios.get(`${API_BASE_URL}/Books`,
-        {
-            headers: {Authorization: `Bearer ${localStorage.getItem('access_token')}`}
-        })
+    async(pagination: Pagination | null) => {
+        const params = pagination
+            ? { page: pagination.page, pageSize: pagination.pageSize }
+            : undefined;
+        const res = await axios.get<PaginatedResponse<Book>>(`${API_BASE_URL}/Books`, {
+            params,
+            headers: { Authorization: `Bearer ${localStorage.getItem('access_token')}` },
+        });
         return res.data;
     }
 )
@@ -149,7 +158,11 @@ const bookSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder.addCase(fetchAllBooks.fulfilled, (state, action) => {
-            state.items = action.payload;
+            const payload = action.payload;
+            state.items = payload.items ?? [];
+            state.totalItems = payload.totalItems ?? state.items.length;
+            state.currentPage = payload.currentPage ?? 1;
+            state.pageSize = payload.pageSize ?? state.pageSize;
         });
         builder.addCase(fetchBookById.fulfilled, (state, action) => {
             state.selected = action.payload;
@@ -162,16 +175,28 @@ const bookSlice = createSlice({
             state.items = state.items.map((b) => (b.id === action.payload.id ? action.payload : b));
         });
         builder.addCase(fetchBooksByCategory.fulfilled, (state, action) => {
-            state.items = action.payload ?? [];
+            const list = action.payload ?? [];
+            state.items = list;
+            state.totalItems = list.length;
+            state.currentPage = 1;
         });
         builder.addCase(fetchBooksByPublisher.fulfilled, (state, action) => {
-            state.items = action.payload ?? [];
+            const list = action.payload ?? [];
+            state.items = list;
+            state.totalItems = list.length;
+            state.currentPage = 1;
         });
         builder.addCase(fetchBooksByAuthor.fulfilled, (state, action) => {
-            state.items = action.payload ?? [];
+            const list = action.payload ?? [];
+            state.items = list;
+            state.totalItems = list.length;
+            state.currentPage = 1;
         });
         builder.addCase(fetchBooksByTitle.fulfilled, (state, action) => {
-            state.items = action.payload ?? [];
+            const list = action.payload ?? [];
+            state.items = list;
+            state.totalItems = list.length;
+            state.currentPage = 1;
         });
     }
 })

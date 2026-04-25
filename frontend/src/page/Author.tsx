@@ -6,6 +6,7 @@ import AuthorCard from "../components/cards/AuthorCard";
 
 const Author = () => {
     const authors = useAppSelector(state => state.authorsReducer.items);
+    const totalItems = useAppSelector(state => state.authorsReducer.totalItems);
     const dispatch = useAppDispatch();
     const [page, setPage] = useState(1);
     const [pageSize] = useState(30);
@@ -18,10 +19,8 @@ const Author = () => {
         return <>Loading...</>
     }
 
-    //Change Page
-    const handleChange = (event:any, page:number) => {
-        setPage(page);
-    };
+    const handleChange = (_: any, page: number) => setPage(page);
+    const totalPages = Math.max(1, Math.ceil((totalItems || authors.length) / pageSize));
 
     return (
         <Box className="page" sx={{ py: 3 }}>
@@ -33,16 +32,18 @@ const Author = () => {
               <AuthorCard key={author.id} author={author} />
             ))}
           </Box>
-          <Box sx={{ display: "flex", justifyContent: "center", mt: 3 }}>
-            <Pagination
-              count={Math.max(1, Math.ceil(authors.length / 30))}
-              page={page}
-              variant="outlined"
-              onChange={handleChange}
-              shape="rounded"
-              size="large"
-            />
-          </Box>
+          {totalPages > 1 && (
+            <Box sx={{ display: "flex", justifyContent: "center", mt: 3 }}>
+              <Pagination
+                count={totalPages}
+                page={page}
+                variant="outlined"
+                onChange={handleChange}
+                shape="rounded"
+                size="large"
+              />
+            </Box>
+          )}
         </Box>
     )
 }
