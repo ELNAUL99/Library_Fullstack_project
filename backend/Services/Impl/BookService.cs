@@ -23,14 +23,26 @@ public class BookService : DbCrudService<Book, BookDTO>, IBookService
     // Copy has a back-reference to Book (Copy.Book), which forms a cycle
     // when included from Book. Plain AsNoTracking() can't handle that —
     // AsNoTrackingWithIdentityResolution keeps a single instance per key.
-    public override async Task<ICollection<Book>> GetAllAsync(int page = 1, int pageSize = 30)
+    public override async Task<PaginatedResponseDTO<Book>> GetAllAsync(int page = 1, int pageSize = 30)
     {
-        return await BooksWithRelations()
+        if (page < 1) page = 1;
+        if (pageSize < 1) pageSize = 30;
+
+        var total = await _dbContext.Books.CountAsync();
+        var items = await BooksWithRelations()
             .OrderBy(b => b.Id)
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
             .AsNoTrackingWithIdentityResolution()
             .ToListAsync();
+
+        return new PaginatedResponseDTO<Book>
+        {
+            Items = items,
+            CurrentPage = page,
+            PageSize = pageSize,
+            TotalItems = total,
+        };
     }
 
     public override async Task<Book?> GetAsync(int id)
@@ -68,7 +80,7 @@ public class BookService : DbCrudService<Book, BookDTO>, IBookService
     public async Task<ICollection<Book>> SearchAsync(string query)
     {
         if (string.IsNullOrWhiteSpace(query))
-            return await GetAllAsync();
+            return (await GetAllAsync()).Items;
 
         var q = query.Trim().ToLower();
         return await BooksWithRelations()

@@ -1,5 +1,6 @@
 namespace Library.Services;
 
+using Library.DTOs;
 using Library.Models;
 
 public interface ICrudService<TModel, TDto>
@@ -8,5 +9,5 @@ public interface ICrudService<TModel, TDto>
     Task<TModel?> GetAsync(int id);
     Task<TModel?> UpdateAsync(int id, TDto request);
     Task<bool> DeleteAsync(int id);
-    Task<ICollection<TModel>> GetAllAsync(int page = 1, int pageSize = 30);
+    Task<PaginatedResponseDTO<TModel>> GetAllAsync(int page = 1, int pageSize = 30);
 }

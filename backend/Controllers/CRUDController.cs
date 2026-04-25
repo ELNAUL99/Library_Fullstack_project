@@ -18,7 +18,7 @@ public abstract class CrudController<TModel, TDto> : ApiControllerBase
     }
 
     [HttpGet]
-    public async virtual Task<ICollection<TModel>> GetAll(int page = 1, int pageSize = 30)
+    public async virtual Task<PaginatedResponseDTO<TModel>> GetAll(int page = 1, int pageSize = 30)
     {
         return await _service.GetAllAsync(page, pageSize);
     }

@@ -38,9 +38,27 @@ public class DbCrudService<TModel, TDto> : ICrudService<TModel, TDto>
         return true;
     }
 
-    public virtual async Task<ICollection<TModel>> GetAllAsync (int page = 1, int pageSize = 30)
+    public virtual async Task<PaginatedResponseDTO<TModel>> GetAllAsync(int page = 1, int pageSize = 30)
     {
-        return await _dbContext.Set<TModel>().Skip((page-1)*pageSize).Take(pageSize).AsNoTracking().ToListAsync();
+        if (page < 1) page = 1;
+        if (pageSize < 1) pageSize = 30;
+
+        var query = _dbContext.Set<TModel>();
+        var total = await query.CountAsync();
+        var items = await query
+            .OrderBy(e => e.Id)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .AsNoTracking()
+            .ToListAsync();
+
+        return new PaginatedResponseDTO<TModel>
+        {
+            Items = items,
+            CurrentPage = page,
+            PageSize = pageSize,
+            TotalItems = total,
+        };
     }
 
     public virtual async Task<TModel?> GetAsync(int id)

@@ -60,13 +60,26 @@ public class RentalService : IRentalService
             .ToListAsync();
     }
 
-    public async Task<ICollection<Rental>> GetAllAsync(int page = 1, int pageSize = 30)
+    public async Task<PaginatedResponseDTO<Rental>> GetAllAsync(int page = 1, int pageSize = 30)
     {
-        return await _dbContext.Rentals
+        if (page < 1) page = 1;
+        if (pageSize < 1) pageSize = 30;
+
+        var total = await _dbContext.Rentals.CountAsync();
+        var items = await _dbContext.Rentals
+            .OrderBy(r => r.Id)
             .AsNoTracking()
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync();
+
+        return new PaginatedResponseDTO<Rental>
+        {
+            Items = items,
+            CurrentPage = page,
+            PageSize = pageSize,
+            TotalItems = total,
+        };
     }
 
     public async Task<Rental?> GetAsync(int id)

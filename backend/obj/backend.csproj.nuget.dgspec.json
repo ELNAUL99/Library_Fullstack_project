@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/macbook/Desktop/Unity/Library_Fullstack_project/backend/backend.csproj": {}
+    "/Users/macbook/Desktop/coding/Library_Fullstack_project/backend/backend.csproj": {}
   },
   "projects": {
-    "/Users/macbook/Desktop/Unity/Library_Fullstack_project/backend/backend.csproj": {
+    "/Users/macbook/Desktop/coding/Library_Fullstack_project/backend/backend.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/macbook/Desktop/Unity/Library_Fullstack_project/backend/backend.csproj",
+        "projectUniqueName": "/Users/macbook/Desktop/coding/Library_Fullstack_project/backend/backend.csproj",
         "projectName": "backend",
-        "projectPath": "/Users/macbook/Desktop/Unity/Library_Fullstack_project/backend/backend.csproj",
+        "projectPath": "/Users/macbook/Desktop/coding/Library_Fullstack_project/backend/backend.csproj",
         "packagesPath": "/Users/macbook/.nuget/packages/",
-        "outputPath": "/Users/macbook/Desktop/Unity/Library_Fullstack_project/backend/obj/",
+        "outputPath": "/Users/macbook/Desktop/coding/Library_Fullstack_project/backend/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/macbook/.nuget/NuGet/NuGet.Config"

@@ -20,17 +20,16 @@ public class RentalController : ApiControllerBase
 
     [HttpGet]
     [Authorize(Roles ="Admin")]
-    public async Task<ActionResult<IEnumerable<RentalDTO>>> GetAllRentals()
+    public async Task<IActionResult> GetAllRentals(int page = 1, int pageSize = 30)
     {
-        var rentals = await _rentalService.GetAllAsync();
+        var rentals = await _rentalService.GetAllAsync(page, pageSize);
 
-            if (!rentals.Any())
-            {
-                return NotFound();
-            }
+        if (!rentals.Items.Any())
+        {
+            return NotFound();
+        }
 
-            return Ok(rentals);
-
+        return Ok(rentals);
     }
 
     [HttpGet("{id}")]
