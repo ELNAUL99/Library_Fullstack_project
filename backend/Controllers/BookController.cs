@@ -14,6 +14,30 @@ public class BookController : CrudController<Book, BookDTO>
         _bookService = bookService;
     }
 
+    [HttpGet("author/{authorId:int}")]
+    public async Task<ActionResult<ICollection<Book>>> GetByAuthor([FromRoute] int authorId)
+    {
+        return Ok(await _bookService.GetByAuthorAsync(authorId));
+    }
+
+    [HttpGet("category/{categoryId:int}")]
+    public async Task<ActionResult<ICollection<Book>>> GetByCategory([FromRoute] int categoryId)
+    {
+        return Ok(await _bookService.GetByCategoryAsync(categoryId));
+    }
+
+    [HttpGet("publisher/{publisherId:int}")]
+    public async Task<ActionResult<ICollection<Book>>> GetByPublisher([FromRoute] int publisherId)
+    {
+        return Ok(await _bookService.GetByPublisherAsync(publisherId));
+    }
+
+    [HttpGet("search/{query}")]
+    public async Task<ActionResult<ICollection<Book>>> Search([FromRoute] string query)
+    {
+        return Ok(await _bookService.SearchAsync(query));
+    }
+
     [HttpPost("{id:int}/categories"), Authorize(Roles = "ADMIN")]
     public async Task<IActionResult> AddCategoryToBook([FromRoute] int id, [FromBody] AddDTO request)
     {
