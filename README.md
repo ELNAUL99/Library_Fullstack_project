@@ -12,6 +12,30 @@ A fullstack Library Management System built with a **React + TypeScript** fronte
 
 ---
 
+## Try it live — read this first
+
+> The frontend is deployed on Vercel, but **the backend is not hosted anywhere**. The deployed UI is wired to talk to a backend running on **your own machine** at `http://localhost:5131`. Open the live URL without a local backend running and you'll see the login page, but every API call will fail.
+
+**Live URL:** _to be filled in after first Vercel deploy — see [DEPLOY.md](./DEPLOY.md)_
+
+### To actually use the deployed demo, in this order
+
+1. **Clone this repo** and set up PostgreSQL (see [Prerequisites](#prerequisites) + [Database](#4-database)).
+2. **Start the backend** on port 5131:
+   ```bash
+   cd backend
+   dotnet run --urls http://localhost:5131
+   ```
+3. **Open the live URL** in your browser. Log in / register. The frontend will call your local backend.
+
+### Browser mixed-content note
+
+The live site is HTTPS but calls `http://localhost:5131`. Modern Chromium browsers (Chrome, Edge, Brave) and Firefox treat `http://localhost` as a "potentially trustworthy" origin and allow the call. **Safari blocks it**. If you're on Safari, either:
+- Use Chrome/Firefox for the demo, or
+- Run the frontend locally too (`cd frontend && npm start`), which serves over plain HTTP so no mixed-content rule applies.
+
+---
+
 ## Table of Contents
 
 - [Features](#features)
@@ -174,10 +198,11 @@ dotnet ef database update
 
 #### Run the backend
 ```bash
-dotnet run
+dotnet run --urls http://localhost:5131
 ```
-The API will start (default: `https://localhost:7000` / `http://localhost:5000`).
-Swagger UI is available at the root URL.
+The API will start on `http://localhost:5131` — that's the URL both the
+local frontend (`.env`) and the deployed Vercel frontend (`.env.production`)
+expect. Swagger UI is served at the root URL.
 
 ---
 
@@ -195,18 +220,17 @@ npm install
 ```
 
 #### Configure environment variables
-Create a `.env` file in the `frontend/` directory:
+Create a `.env` file in the `frontend/` directory for local dev:
 
 ```env
-REACT_APP_API_URL=http://localhost:5000
-```
-
-For production/deployment:
-```env
-REACT_APP_API_URL=https://backend-library.azurewebsites.net
+REACT_APP_API_URL=http://localhost:5131
 ```
 
 > See `frontend/.env.example` for the template.
+>
+> `frontend/.env.production` is committed to the repo and sets the same
+> localhost URL — that's the file Vercel uses for the deployed build.
+> Change it only if you host the backend somewhere public.
 
 #### Run the frontend
 ```bash
@@ -337,10 +361,26 @@ npm test
 
 ## Deployment Notes
 
-- The backend is configured to run Swagger in all environments (adjust `Program.cs` for production).
-- CORS is configured for `http://localhost:3000` by default; update origins as needed.
-- The `frontend/build` folder contains a production React build (static files).
-- The backend has been successfully deployed to Azure (`backend-library.azurewebsites.net`).
+### Current setup
+
+- **Frontend**: deployed on Vercel (Hobby / free tier — no card required).
+- **Backend**: **not currently hosted anywhere.** The old Azure App Service (`backend-library.azurewebsites.net`) was deleted; DNS no longer resolves. Anyone visiting the live URL must run the backend locally on port 5131 — see [Try it live](#try-it-live--read-this-first) at the top of this README.
+
+### Frontend build
+
+- `frontend/.env.production` sets `REACT_APP_API_URL=http://localhost:5131`. Vercel picks this up at build time; the deployed bundle targets a locally-running API.
+- `frontend/build` (git-ignored) is the local production build output; Vercel builds its own copy from `main`.
+
+### Backend
+
+- `Program.cs` reads `Cors:AllowedOrigins` from configuration (comma-separated). For a Vercel demo, set it to your Vercel URL (e.g. `https://library-frontend.vercel.app`); locally it defaults to `http://localhost:3000`.
+- `dbContext.Database.MigrateAsync()` runs at startup, so a fresh Postgres gets its schema on first boot without a manual `dotnet ef database update`.
+- Swagger is exposed at the app root in all environments. Restrict it before you host the backend anywhere public.
+
+### Full deploy guide
+
+- Frontend + backend (Azure) walkthrough with pipeline: [DEPLOY.md](./DEPLOY.md).
+- Not yet used, kept for the day the backend gets hosted again.
 
 ---
 
