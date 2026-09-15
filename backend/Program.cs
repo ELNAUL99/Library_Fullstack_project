@@ -135,20 +135,31 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddCors(options =>
 {
-    options.AddDefaultPolicy(
-        policy =>
-        {
-            policy
-                .WithOrigins("http://localhost:3000")
-                .AllowAnyHeader()
-                .AllowAnyMethod();
-        });
+    // Allowed origins come from Cors:AllowedOrigins (comma-separated) so
+    // production/staging can add their frontend URLs without a code change.
+    // Falls back to localhost:3000 for local dev.
+    var allowedOrigins = builder.Configuration
+        .GetValue<string>("Cors:AllowedOrigins")
+        ?.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+        ?? new[] { "http://localhost:3000" };
+
+    options.AddDefaultPolicy(policy =>
+        policy
+            .WithOrigins(allowedOrigins)
+            .AllowAnyHeader()
+            .AllowAnyMethod());
 });
 
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
 {
+    // Apply any pending EF migrations on startup so a freshly-provisioned
+    // database (e.g. a new Azure Postgres) gets the schema without a manual
+    // `dotnet ef database update`.
+    var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    await dbContext.Database.MigrateAsync();
+
     await SeedRolesAsync(scope.ServiceProvider);
     await SeedAdminUsersAsync(scope.ServiceProvider);
 }
