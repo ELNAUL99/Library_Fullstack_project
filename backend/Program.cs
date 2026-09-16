@@ -10,6 +10,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.HttpOverrides;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -155,7 +156,7 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     // Apply any pending EF migrations on startup so a freshly-provisioned
-    // database (e.g. a new Azure Postgres) gets the schema without a manual
+    // database (e.g. a new managed Postgres) gets the schema without a manual
     // `dotnet ef database update`.
     var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     await dbContext.Database.MigrateAsync();
@@ -164,6 +165,19 @@ using (var scope = app.Services.CreateScope())
     await SeedAdminUsersAsync(scope.ServiceProvider);
 }
 
+
+// When running behind a reverse proxy that terminates TLS (Azure App Service,
+// AWS App Runner, an nginx sidecar), trust the X-Forwarded-* headers so
+// Request.Scheme / Request.Host reflect the outside URL. Otherwise HTTPS
+// redirects, auth cookies, and OAuth callbacks break. KnownNetworks/Proxies
+// are cleared so the proxy hop is trusted regardless of internal IP.
+var forwardedOptions = new ForwardedHeadersOptions
+{
+    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto,
+};
+forwardedOptions.KnownNetworks.Clear();
+forwardedOptions.KnownProxies.Clear();
+app.UseForwardedHeaders(forwardedOptions);
 
 // Add exception middleware
 app.UseMiddleware<ExceptionMiddleware>();

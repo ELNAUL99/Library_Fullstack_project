@@ -379,8 +379,8 @@ npm test
 
 ### Full deploy guide
 
-- Frontend + backend (Azure) walkthrough with pipeline: [DEPLOY.md](./DEPLOY.md).
-- Not yet used, kept for the day the backend gets hosted again.
+- Backend on **AWS App Runner + RDS PostgreSQL** with GitHub Actions CI, plus the Vercel frontend section: [DEPLOY.md](./DEPLOY.md).
+- Written against the AWS Free Plan (no card required, ~6-month window, no silent auto-billing). Tear-down steps included.
 
 ---
 

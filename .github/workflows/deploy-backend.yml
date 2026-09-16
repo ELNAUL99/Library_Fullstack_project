@@ -1,4 +1,4 @@
-name: Deploy backend to Azure App Service
+name: Deploy backend to AWS App Runner
 
 on:
   push:
@@ -8,35 +8,56 @@ on:
       - ".github/workflows/deploy-backend.yml"
   workflow_dispatch: {}
 
+# Required secrets (Settings → Secrets and variables → Actions):
+#   AWS_ACCESS_KEY_ID
+#   AWS_SECRET_ACCESS_KEY
+# Required variables (Settings → Secrets and variables → Actions → Variables):
+#   AWS_REGION                (e.g. eu-north-1)
+#   ECR_REPOSITORY            (e.g. library-backend)
+#   APP_RUNNER_SERVICE_ARN    (from App Runner console after creating the service)
+# See DEPLOY.md for the one-time setup.
+
 env:
-  AZURE_WEBAPP_NAME: backend-library
-  DOTNET_VERSION: "7.0.x"
-  BACKEND_PROJECT: backend/backend.csproj
-  PUBLISH_DIR: ./publish
+  AWS_REGION: ${{ vars.AWS_REGION }}
+  ECR_REPOSITORY: ${{ vars.ECR_REPOSITORY }}
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up .NET
-        uses: actions/setup-dotnet@v4
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
         with:
-          dotnet-version: ${{ env.DOTNET_VERSION }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
 
-      - name: Restore
-        run: dotnet restore ${{ env.BACKEND_PROJECT }}
+      - name: Log in to Amazon ECR
+        id: ecr-login
+        uses: aws-actions/amazon-ecr-login@v2
 
-      - name: Build
-        run: dotnet build ${{ env.BACKEND_PROJECT }} --configuration Release --no-restore
+      - name: Build and push image
+        env:
+          REGISTRY: ${{ steps.ecr-login.outputs.registry }}
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          IMAGE_URI="$REGISTRY/${ECR_REPOSITORY}:$IMAGE_TAG"
+          LATEST_URI="$REGISTRY/${ECR_REPOSITORY}:latest"
+          docker build -t "$IMAGE_URI" -t "$LATEST_URI" ./backend
+          docker push "$IMAGE_URI"
+          docker push "$LATEST_URI"
+          echo "IMAGE_URI=$IMAGE_URI" >> "$GITHUB_ENV"
 
-      - name: Publish
-        run: dotnet publish ${{ env.BACKEND_PROJECT }} --configuration Release --no-build --output ${{ env.PUBLISH_DIR }}
-
-      - name: Deploy to Azure Web App
-        uses: azure/webapps-deploy@v3
-        with:
-          app-name: ${{ env.AZURE_WEBAPP_NAME }}
-          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-          package: ${{ env.PUBLISH_DIR }}
+      - name: Trigger App Runner deployment
+        # Only runs after the service ARN is set. First-ever deploy: skip this
+        # (push the image, then create the App Runner service in the console
+        # pointing at the :latest tag — see DEPLOY.md).
+        if: ${{ vars.APP_RUNNER_SERVICE_ARN != '' }}
+        run: |
+          aws apprunner start-deployment \
+            --service-arn "${{ vars.APP_RUNNER_SERVICE_ARN }}" \
+            --region "$AWS_REGION"
