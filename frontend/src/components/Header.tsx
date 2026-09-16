@@ -75,7 +75,7 @@ const Header = () => {
                 fontFamily: "monospace",
                 fontWeight: 700,
                 letterSpacing: ".2rem",
-                color: "white",
+                color: "text.primary",
                 display: { xs: "none", md: "flex" },
               }}
             >
@@ -107,7 +107,7 @@ const Header = () => {
               <Button
                 key={page}
                 onClick={() => handlePageClick(page)}
-                sx={{ color: "white", fontSize: "1rem" }}
+                sx={{ color: "text.primary", fontSize: "1rem" }}
               >
                 {page}
               </Button>
@@ -118,13 +118,13 @@ const Header = () => {
           <Box>
             <Tooltip title="Your account">
               <IconButton onClick={openUserMenu}>
-                <PersonIcon sx={{ fontSize: "2.5rem", color: "white" }} />
+                <PersonIcon sx={{ fontSize: "2.5rem", color: "text.primary" }} />
               </IconButton>
             </Tooltip>
             {user?.username ? (
               <Typography
                 variant="body2"
-                sx={{ color: "white", display: { xs: "none", md: "inline" } }}
+                sx={{ color: "text.primary", display: { xs: "none", md: "inline" } }}
               >
                 {user.username}
               </Typography>

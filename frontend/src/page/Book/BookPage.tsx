@@ -93,9 +93,9 @@ const BookPage = () => {
             overflow: "hidden",
             position: "relative",
             background:
-              "linear-gradient(135deg, rgba(124,58,237,0.5) 0%, rgba(59,130,246,0.45) 100%)",
-            boxShadow: "0 18px 40px rgba(0,0,0,0.45)",
-            border: "1px solid rgba(255,255,255,0.12)",
+              "linear-gradient(135deg, #e0805f 0%, #f0b39a 100%)",
+            boxShadow: "0 12px 30px rgba(26,26,26,0.15)",
+            border: "1px solid #efe9df",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -151,7 +151,7 @@ const BookPage = () => {
           </Typography>
 
           {book?.description && (
-            <Typography sx={{ mb: 3, color: "rgba(229,231,235,0.85)" }}>
+            <Typography sx={{ mb: 3, color: "text.primary" }}>
               {book.description}
             </Typography>
           )}
@@ -213,7 +213,7 @@ const BookPage = () => {
             )}
           </Stack>
 
-          <Divider sx={{ my: 3, borderColor: "rgba(255,255,255,0.1)" }} />
+          <Divider sx={{ my: 3, borderColor: "divider" }} />
 
           {/* Loan section */}
           <Typography variant="h5" sx={{ fontWeight: 800, mb: 1 }}>
@@ -228,8 +228,9 @@ const BookPage = () => {
               sx={{
                 p: 2,
                 borderRadius: 2,
-                border: "1px solid rgba(245,158,11,0.35)",
-                background: "rgba(245,158,11,0.08)",
+                border: "1px solid #f0b39a",
+                background: "#fbe7d9",
+                color: "#4a3a2e",
               }}
             >
               <Typography>Sorry, no copies are available for loan right now.</Typography>
@@ -240,38 +241,13 @@ const BookPage = () => {
               spacing={2}
               alignItems={{ xs: "stretch", sm: "center" }}
             >
-              <FormControl
-                sx={{
-                  minWidth: 280,
-                  "& .MuiOutlinedInput-root": {
-                    background: "rgba(255,255,255,0.08)",
-                  },
-                  "& .MuiOutlinedInput-notchedOutline": {
-                    borderColor: "rgba(255,255,255,0.25)",
-                  },
-                  "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline": {
-                    borderColor: "rgba(255,255,255,0.45)",
-                  },
-                  "& .MuiInputLabel-root": { color: "rgba(229,231,235,0.85)" },
-                  "& .MuiSelect-select": { color: "#fff" },
-                  "& .MuiSelect-icon": { color: "rgba(229,231,235,0.85)" },
-                }}
-              >
+              <FormControl sx={{ minWidth: 280 }}>
                 <InputLabel id="copy-select-label">Choose a copy</InputLabel>
                 <Select
                   labelId="copy-select-label"
                   label="Choose a copy"
                   value={copyId}
                   onChange={(e) => setCopyId(e.target.value as number)}
-                  MenuProps={{
-                    PaperProps: {
-                      sx: {
-                        background: "#11182b",
-                        border: "1px solid rgba(255,255,255,0.12)",
-                        color: "#fff",
-                      },
-                    },
-                  }}
                 >
                   {availableCopies.map((c) => (
                     <MenuItem key={c.id} value={c.id}>

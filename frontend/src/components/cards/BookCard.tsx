@@ -39,8 +39,8 @@ const BookCard = (props: { book: Book }) => {
             borderRadius: 2,
             overflow: "hidden",
             background:
-              "linear-gradient(135deg, rgba(124,58,237,0.55) 0%, rgba(59,130,246,0.5) 100%)",
-            border: "1px solid rgba(255,255,255,0.12)",
+              "linear-gradient(135deg, #e0805f 0%, #f0b39a 100%)",
+            border: "1px solid #efe9df",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",

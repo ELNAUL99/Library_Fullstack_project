@@ -88,7 +88,7 @@ const PublisherDetail = () => {
             height: 96,
             borderRadius: "20px",
             background:
-              "linear-gradient(135deg, #22c55e 0%, #3b82f6 100%)",
+              "linear-gradient(135deg, #4a3a2e 0%, #7a5c46 100%)",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",

@@ -82,34 +82,35 @@ a {
   width: 100px;
   height: 100px;
   margin: 0 auto 1rem auto;
-  background: #1976d2;
+  background: #e0805f;
+  color: #ffffff;
   font-size: 2.5rem;
 }
 .profile-header .profile-title {
   font-weight: 700;
-  color: #f3f4f6;
+  color: #1a1a1a;
   margin-bottom: 0.3rem;
 }
 .profile-header .profile-subtitle {
-  color: rgba(229, 231, 235, 0.72);
+  color: #6b6b6b;
   font-size: 1.1rem;
 }
 
 /* Card with user info */
 .profile-card {
-  background: rgba(255, 255, 255, 0.06);
+  background: #ffffff;
   padding: 2rem;
   border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 1px 2px rgba(26, 26, 26, 0.04), 0 4px 12px rgba(26, 26, 26, 0.04);
+  border: 1px solid #efe9df;
   margin-bottom: 2rem;
 }
 .profile-card h6 {
   margin-bottom: 1rem;
-  color: rgba(243, 244, 246, 0.92);
+  color: #1a1a1a;
 }
 .profile-card h6 b {
-  color: #ffffff;
+  color: #4a3a2e;
   margin-right: 0.5rem;
 }
 
@@ -122,17 +123,17 @@ a {
 .profile-actions .profile-btn {
   padding: 0.7rem 1.5rem;
   font-size: 1rem;
-  border-radius: 8px;
+  border-radius: 999px;
 }
 .profile-actions .edit-btn {
-  background: rgba(25, 118, 210, 0.85);
+  background: #e0805f;
   color: white;
   padding: 0.7rem;
-  border-radius: 8px;
+  border-radius: 999px;
   transition: background 0.2s ease;
 }
 .profile-actions .edit-btn:hover {
-  background: rgb(25, 118, 210);
+  background: #c96945;
 }
 .profile-actions .edit-btn svg {
   font-size: 1.5rem;
@@ -157,8 +158,8 @@ body {
 }
 
 body {
-  background: #0b1220;
-  color: #e5e7eb;
+  background: #faf5ef;
+  color: #1a1a1a;
   font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
 }
 
@@ -177,9 +178,9 @@ body {
 
 .card {
   border-radius: 16px !important;
-  background: rgba(255, 255, 255, 0.06) !important;
-  border: 1px solid rgba(255, 255, 255, 0.1) !important;
-  backdrop-filter: blur(10px);
+  background: #ffffff !important;
+  border: 1px solid #efe9df !important;
+  box-shadow: 0 1px 2px rgba(26, 26, 26, 0.04), 0 4px 12px rgba(26, 26, 26, 0.04);
 }
 
 .grid-cards {
@@ -229,16 +230,17 @@ body {
   padding: 12px 14px;
   border-radius: 12px;
   font-weight: 600;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  background: rgba(17, 24, 39, 0.92);
+  color: #1a1a1a;
+  box-shadow: 0 10px 30px rgba(26, 26, 26, 0.08);
+  border: 1px solid #efe9df;
+  background: #ffffff;
   max-width: min(420px, 100vw - 32px);
 }
 
 .notification.successful {
-  border-color: rgba(34, 197, 94, 0.35);
+  border-color: rgba(34, 139, 90, 0.45);
 }
 
 .notification.warning {
-  border-color: rgba(245, 158, 11, 0.35);
+  border-color: rgba(224, 128, 95, 0.5);
 }

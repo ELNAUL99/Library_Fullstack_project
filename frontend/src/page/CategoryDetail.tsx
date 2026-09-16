@@ -87,7 +87,7 @@ const CategoryDetail = () => {
             height: 96,
             borderRadius: "20px",
             background:
-              "linear-gradient(135deg, #7c3aed 0%, #3b82f6 100%)",
+              "linear-gradient(135deg, #e0805f 0%, #d97c5f 100%)",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
